@@ -77,7 +77,10 @@
             <!-- Baris 2: Tabel Projek Aktif -->
             <div class="card stretch-card">
                 <div class="card-body">
+                    <div class="d-flex justify-content-between">
                     <p class="card-title">Kehadiran Karyawan</p>
+                    <a href="#" class="text-info">View all</a>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -110,49 +113,153 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <!-- Kolom Kiri -->
+        <div class="col-md-5 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title">Projek Monitoring</p>
+                    <div class="row">
+                        <div class="col-md-6 mb-3 stretch-card transparent">
+                            <div class="card card-tale">
+                                <div class="card-body">
+                                    <p class="mb-4">Jumlah Projek</p>
+                                    <p class="fs-30 mb-2">123</p>
+                                    <p>Projek</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3 stretch-card transparent">
+                            <div class="card card-tale">
+                                <div class="card-body">
+                                    <p class="mb-4">Projek Selesai</p>
+                                    <p class="fs-30 mb-2">56</p>
+                                    <p>Selesai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doughnut Chart -->
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div class="col-md-7">
+            <!-- Baris 1: Tugas Aktif dan Jam -->
+            <!-- Baris 2: Tabel Projek Aktif -->
+            <div class="card stretch-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <p class="card-title">Kehadiran Karyawan</p>
+                        <a href="#" class="text-info">View all</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Jenis Izin/Cuti</th>
+                                    <th>Durasi</th>
+                                    <th>Bukti File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Siti</td>
+                                    <td>Sakit</td>
+                                    <td>1 hari</td>
+                                    <td><a href="">Surat Sakit</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Masta</td>
+                                    <td>Cuti</td>
+                                    <td>3 Hari</td>
+                                    <td><a href="">Surat Cuti</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Topik</td>
+                                    <td>Sakit</td>
+                                    <td>2 Hari</td>
+                                    <td><a href="">Surat Sakit</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
-    <!-- Real-time Clock Script -->
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('id-ID');
-            document.getElementById('realTimeClock').textContent = timeString;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
+        <!-- Real-time Clock Script -->
+        <script>
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('id-ID');
+                document.getElementById('realTimeClock').textContent = timeString;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        </script>
 
-    <!-- Chart Doughnut -->
-    <script>
-        $(function () {
-            if ($("#doughnutChart").length) {
-                const ctx = document.getElementById("doughnutChart").getContext('2d');
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Proyek A', 'Proyek B', 'Proyek C'],
-                        datasets: [{
-                            data: [183.14, 139.65, 89.95],
-                            backgroundColor: ['#3CC3DF', '#8979FF', '#FF928A'],
-                            borderColor: '#fff',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        aspectRatio: 1.5,
-                        cutout: '70%',
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
+        <!-- Chart Doughnut -->
+        <script>
+            $(function () {
+                if ($("#doughnutChart").length) {
+                    const ctx = document.getElementById("doughnutChart").getContext('2d');
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Proyek A', 'Proyek B', 'Proyek C'],
+                            datasets: [{
+                                data: [183.14, 139.65, 89.95],
+                                backgroundColor: ['#2D336B', '#F97A00', '#FEBA17'],
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            aspectRatio: 1.5,
+                            cutout: '70%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
+            });
+        </script>
+
+    <script>
+        const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctxAttendance, {
+            type: 'bar',
+            data: {
+                labels: ['WFO', 'WFH/A', 'Tidak Hadir'],
+                datasets: [{
+                    label: 'Jumlah',
+                    data: [98, 18, 5],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#e74a3b']
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { beginAtZero: true }
+                }
             }
         });
     </script>
+
 @endpush
