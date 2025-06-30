@@ -46,10 +46,10 @@
                 <div class="card-body">
                     <h4 class="card-title">Data Karyawan</h4>
                     <div class="mb-3">
-                        <a href="#" class="btn btn-outline-primary">
+                        <a href="{{route ('karyawan.create') }}" class="btn btn-outline-primary">
                             <i class="bi bi-plus-circle"></i> Tambah Karyawan
                         </a>
-                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="example" class="table table-hover" style="95%">
                             <thead>

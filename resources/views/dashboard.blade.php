@@ -119,29 +119,23 @@
             <div class="card">
                 <div class="card-body">
                     <p class="card-title">Projek Monitoring</p>
-                    <div class="row">
-                        <div class="col-md-6 mb-3 stretch-card transparent">
-                            <div class="card card-tale">
-                                <div class="card-body">
-                                    <p class="mb-4">Jumlah Projek</p>
-                                    <p class="fs-30 mb-2">123</p>
-                                    <p>Projek</p>
-                                </div>
-                            </div>
+                    <canvas id="attendanceChart" min-height="100%"></canvas>
+                    <div class="d-flex justify-content-around mt-2">
+                        <div class="text-center">
+                            <div class="badge bg-primary text-white">WFO</div>
+                            <p class="mb-0">8 orang</p>
                         </div>
-                        <div class="col-md-6 mb-3 stretch-card transparent">
-                            <div class="card card-tale">
-                                <div class="card-body">
-                                    <p class="mb-4">Projek Selesai</p>
-                                    <p class="fs-30 mb-2">56</p>
-                                    <p>Selesai</p>
-                                </div>
-                            </div>
+                        <div class="text-center">
+                            <div class="badge bg-success text-white">WFH/A</div>
+                            <p class="mb-0">8 orang</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="badge bg-danger text-white">Tidak Hadir</div>
+                            <p class="mb-0">5 orang</p>
                         </div>
                     </div>
 
                     <!-- Doughnut Chart -->
-                    <canvas id="doughnutChart"></canvas>
                 </div>
             </div>
         </div>
@@ -195,48 +189,50 @@
 @endsection
 
 @push('scripts')
-        <!-- Real-time Clock Script -->
-        <script>
-            function updateClock() {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('id-ID');
-                document.getElementById('realTimeClock').textContent = timeString;
-            }
-            setInterval(updateClock, 1000);
-            updateClock();
-        </script>
+            <!-- Real-time Clock Script -->
+            <script>
+                function updateClock() {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString('id-ID');
+                    document.getElementById('realTimeClock').textContent = timeString;
+                }
+                setInterval(updateClock, 1000);
+                updateClock();
+            </script>
 
-        <!-- Chart Doughnut -->
-        <script>
-            $(function () {
-                if ($("#doughnutChart").length) {
-                    const ctx = document.getElementById("doughnutChart").getContext('2d');
-                    new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Proyek A', 'Proyek B', 'Proyek C'],
-                            datasets: [{
-                                data: [183.14, 139.65, 89.95],
-                                backgroundColor: ['#2D336B', '#F97A00', '#FEBA17'],
-                                borderColor: '#fff',
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: true,
-                            aspectRatio: 1.5,
-                            cutout: '70%',
-                            plugins: {
-                                legend: {
-                                    position: 'bottom'
+            <!-- Chart Doughnut -->
+            <script>
+                $(function () {
+                    if ($("#doughnutChart").length) {
+                        const ctx = document.getElementById("doughnutChart").getContext('2d');
+                        new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Proyek A', 'Proyek B', 'Proyek C'],
+                                datasets: [{
+                                    data: [183.14, 139.65, 89.95],
+                                    backgroundColor: ['#2D336B', '#F97A00', '#FEBA17'],
+                                    borderColor: '#fff',
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: true,
+                                aspectRatio: 1.5,
+                                cutout: '70%',
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
                                 }
                             }
-                        }
-                    });
-                }
-            });
-        </script>
+                        });
+                    }
+                });
+            </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
         const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
@@ -246,20 +242,61 @@
                 labels: ['WFO', 'WFH/A', 'Tidak Hadir'],
                 datasets: [{
                     label: 'Jumlah',
-                    data: [98, 18, 5],
-                    backgroundColor: ['#4e73df', '#1cc88a', '#e74a3b']
+                    data: [8, 8, 5], // Pastikan data sesuai
+                    backgroundColor: ['#2D336B', '#00CEC9', '#FE6D73'],
+                    borderRadius: 10,
+                    barThickness: 30,
                 }]
             },
             options: {
                 indexAxis: 'y',
+                responsive: true,
                 plugins: {
-                    legend: { display: false }
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#2d3436',
+                        titleColor: '#fff',
+                        bodyColor: '#dfe6e9',
+                        cornerRadius: 0,
+                    }
                 },
                 scales: {
-                    x: { beginAtZero: true }
+                    x: {
+                        beginAtZero: true,
+                        min: 0,          // ⬅️ Inilah yang WAJIB
+                        suggestedMax: 10, // Tambahan supaya ada ruang kanan
+                        ticks: {
+                            stepSize: 5,
+                            font: {
+                                size: 14
+                            }
+                        },
+                        grid: {
+                            drawBorder: false,
+                            color: '#dfe6e9'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animation: {
+                    duration: 800,
+                    easing: 'easeOutBounce'
                 }
             }
         });
     </script>
+
+
+
 
 @endpush

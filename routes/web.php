@@ -29,6 +29,12 @@ Route::get('/', function () {
 });
 
 Route::resource('karyawan', KaryawanController::class);
+route::get('/karyawan/create', function(){
+    return view('karyawan.create');
+})->name('karyawan.create');
+
+
+
 Route::resource('cuti_izin', CutiIzinController::class);
 Route::prefix('penggajian')->group(function () {
     Route::get('/periode', [PenggajianController::class, 'periode'])->name('penggajian.periode');

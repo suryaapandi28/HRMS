@@ -2,7 +2,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Skydash Admin</title>
+    <title>Arya Guna Abhimantara</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -33,5 +33,5 @@
     <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
 
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('images/logo_aga.png') }}" />
 </head>
